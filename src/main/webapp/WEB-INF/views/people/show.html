@@ -5,10 +5,16 @@
     <title>Человек</title>
 </head>
 <body>
-<p th:text="${person.getName()}">VALUE</p>
-<p th:text="${person.getId()}">VALUE</p>
 
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit name</a>
+<div>Name: <div style="display: inline-block" th:text="${person.getName()}">VALUE</div></div>
+
+<div>Id: <div style="display: inline-block" th:text="${person.getId()}">VALUE</div></div>
+
+<div>Age: <div style="display: inline-block" th:text="${person.getAge()}">VALUE</div></div>
+
+<div>Email: <div style="display: inline-block" th:text="${person.getEmail()}">VALUE</div></div>
+
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit Profile</a>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
