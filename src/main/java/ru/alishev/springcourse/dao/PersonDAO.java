@@ -35,7 +35,7 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person VALUES (1,?,?,?)",person.getName(),person.getAge(),person.getEmail());
+        jdbcTemplate.update("INSERT INTO person (name,age,email) VALUES (?,?,?)",person.getName(),person.getAge(),person.getEmail());
     }
 
     public void update(int id, Person updatedPerson) {
@@ -56,7 +56,7 @@ public class PersonDAO {
         long before = System.currentTimeMillis();
 
         for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO person VALUES (?,?,?,?)", person.getId(), person.getName(), person.getAge(), person.getEmail());
+            jdbcTemplate.update("INSERT INTO person(name,age,email) VALUES (?,?,?)",  person.getName(), person.getAge(), person.getEmail());
         }
 
         long after = System.currentTimeMillis();
@@ -76,13 +76,12 @@ public class PersonDAO {
 
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO person VALUES (?,?,?,?)", new BatchPreparedStatementSetter() {
+        jdbcTemplate.batchUpdate("INSERT INTO person(name,age,email) VALUES (?,?,?)", new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setInt(1, people.get(i).getId());
-                ps.setString(2, people.get(i).getName());
-                ps.setInt(3, people.get(i).getAge());
-                ps.setString(4, people.get(i).getEmail());
+                ps.setString(1, people.get(i).getName());
+                ps.setInt(2, people.get(i).getAge());
+                ps.setString(3, people.get(i).getEmail());
             }
 
             @Override
