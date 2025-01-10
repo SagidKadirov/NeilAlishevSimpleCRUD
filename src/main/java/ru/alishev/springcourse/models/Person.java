@@ -1,9 +1,6 @@
 package ru.alishev.springcourse.models;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Person {
     private int id;
@@ -16,12 +13,16 @@ public class Person {
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     private String email;
+    //Страна, Город, Индекс (6 цифр) ----этот ввод с первыми большими буквами считается правильным форматом
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your address should be in this format: Country, City, Postal Code (6 numbers)")
+    private String address;
 
-    public Person(int id, String name, int age, String email) {
+    public Person(int id, String name, int age, String email, String address) {
         this.age = age;
         this.email = email;
         this.id = id;
         this.name = name;
+        this.address = address;
     }
 
     public Person() {
@@ -57,5 +58,13 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

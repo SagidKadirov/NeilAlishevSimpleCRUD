@@ -42,11 +42,11 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person (name,age,email) VALUES (?,?,?)",person.getName(),person.getAge(),person.getEmail());
+        jdbcTemplate.update("INSERT INTO person (name,age,email,address) VALUES (?,?,?,?)",person.getName(),person.getAge(),person.getEmail(),person.getAddress());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET name=?, age=?,email=? where id=?",updatedPerson.getName(),updatedPerson.getAge(),updatedPerson.getEmail(),id);
+        jdbcTemplate.update("UPDATE person SET name=?, age=?,email=?, address=? where id=?",updatedPerson.getName(),updatedPerson.getAge(),updatedPerson.getEmail(),updatedPerson.getAddress(), id);
     }
 
     public void delete(int id) {
@@ -63,7 +63,7 @@ public class PersonDAO {
         long before = System.currentTimeMillis();
 
         for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO person(name,age,email) VALUES (?,?,?)",  person.getName(), person.getAge(), person.getEmail());
+            jdbcTemplate.update("INSERT INTO person(name,age,email,address) VALUES (?,?,?,'German, Berlin, 123456')",  person.getName(), person.getAge(), person.getEmail());
         }
 
         long after = System.currentTimeMillis();
@@ -73,7 +73,7 @@ public class PersonDAO {
     private List<Person> create1000People() {
         List<Person> people = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
-            people.add(new Person(i, "Name" + i, 30, "test" + i + "@mail.ru"));
+            people.add(new Person(i, "Name" + i, 30, "test" + i + "@mail.ru","some address"));
         }
         return people;
     }
@@ -83,7 +83,7 @@ public class PersonDAO {
 
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO person(name,age,email) VALUES (?,?,?)", new BatchPreparedStatementSetter() {
+        jdbcTemplate.batchUpdate("INSERT INTO person(name,age,email,address) VALUES (?,?,?,'German, Berlin, 123456')", new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setString(1, people.get(i).getName());
